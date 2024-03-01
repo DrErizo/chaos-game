@@ -36,9 +36,10 @@ int main(int argc, const char **argv) {
 					return 1;
 
 				case SDL_KEYDOWN:
-					if(event.key.keysym.sym == SDLK_ESCAPE)
+					if(event.key.keysym.sym == SDLK_ESCAPE){
 						Quit();
-					return 1; 
+						return 1; 
+					}
 			}
 		}
 		for(int i=0;i<BATCH_SIZE;i++){
