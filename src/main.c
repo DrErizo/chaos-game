@@ -32,12 +32,13 @@ int main(int argc, const char **argv) {
 			switch(event.type){
 
 				case SDL_QUIT:
-					Quit();
+					goto quit;
 					break;
 
 				case SDL_KEYDOWN:
-					if(event.key.keysym.sym == SDLK_ESCAPE)
-						Quit();
+					if(event.key.keysym.sym == SDLK_ESCAPE) {
+						goto quit;
+					}
 					break; 
 			}
 		}
@@ -60,6 +61,10 @@ int main(int argc, const char **argv) {
 		SDL_RenderCopy(renderer,texture, NULL, NULL);
 		SDL_RenderPresent(renderer);
 	}
+
+quit:
+	Quit();
+
 	return 0;
 }
 static void DrawPointInReferenceTo(SDL_Texture *texture, int x, int y){
@@ -73,6 +78,7 @@ static void DrawPointInReferenceTo(SDL_Texture *texture, int x, int y){
 
 static void Quit(){
 	printf("Quitting SDL...\n");
+	SDL_DestroyTexture(texture);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
