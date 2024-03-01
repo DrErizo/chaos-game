@@ -33,12 +33,12 @@ int main(int argc, const char **argv) {
 
 				case SDL_QUIT:
 					Quit();
-					break;
+					return 1;
 
 				case SDL_KEYDOWN:
 					if(event.key.keysym.sym == SDLK_ESCAPE)
 						Quit();
-					break; 
+					return 1; 
 			}
 		}
 		for(int i=0;i<BATCH_SIZE;i++){
@@ -73,6 +73,7 @@ static void DrawPointInReferenceTo(SDL_Texture *texture, int x, int y){
 
 static void Quit(){
 	printf("Quitting SDL...\n");
+	SDL_DestroyTexture(texture);
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
