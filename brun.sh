@@ -1,4 +1,5 @@
+mkdir -p bin
 make
-cd bin
+pushd bin
 ./erizos-chaos-game
-cd ..
+popd
