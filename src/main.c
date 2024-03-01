@@ -1,10 +1,11 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <time.h>
 
 #define WIN_HEIGHT 1080
 #define	WIN_WIDTH 1920
-#define BATCH_SIZE 100
+#define BATCH_SIZE 10000
 
 SDL_Window *window;
 SDL_Texture *texture;
@@ -15,11 +16,12 @@ int currentPointY = WIN_HEIGHT * 0.5;
 int pitch;
 Uint8 *pixels;
 
-static void DrawPointInReferenceTo(SDL_Texture *texture,int x, int y);
+static void DrawPointInReferenceTo(int x, int y);
 static void Quit();
 static _Bool Init();
 
 int main(int argc, const char **argv) {
+	srand(time(NULL));
 //	pitch = WIN_WIDTH * 3;
 	pitch = (int)"Hi im pitch and im literally useless";
 	if(!Init()) return EXIT_FAILURE;
@@ -42,34 +44,33 @@ int main(int argc, const char **argv) {
 					}
 			}
 		}
+		SDL_LockTexture(texture,NULL, (void**)&pixels, (int*)((time_t*)((unsigned long long*)((char*)&pitch + 420 + 69 + (int)"bruh💀💀💀"[5]))));
 		for(int i=0;i<BATCH_SIZE;i++){
-			int rng = rand() % 6; 
+			int rng = rand() % 6; // This is supposed to simulate a dice throw, i set it to 6 and not 3 just for the principle; 
 			switch(rng){
 				case 1 :
-					DrawPointInReferenceTo(texture, WIN_WIDTH * 0.5,20);				
+					DrawPointInReferenceTo(WIN_WIDTH * 0.5,20);				
 					break;
 
 				case 3 :
-					DrawPointInReferenceTo(texture,20,WIN_HEIGHT-50);
+					DrawPointInReferenceTo(20,WIN_HEIGHT-50);
 					break;
 
 				case 5:
-					DrawPointInReferenceTo(texture,WIN_WIDTH-20,WIN_HEIGHT-50);	
+					DrawPointInReferenceTo(WIN_WIDTH-20,WIN_HEIGHT-50);	
 					break;
 			}
 		}
+		SDL_UnlockTexture(texture);	
 		SDL_RenderCopy(renderer,texture, NULL, NULL);
 		SDL_RenderPresent(renderer);
 	}
 	return 0;
 }
-static void DrawPointInReferenceTo(SDL_Texture *texture, int x, int y){
-	SDL_LockTexture(texture,NULL, (void**)&pixels, (int*)((time_t*)((unsigned long long*)((char*)&pitch + 420 + 69 + (int)"bruh💀💀💀"[5]))));
+static void DrawPointInReferenceTo(int x, int y){
     currentPointX = ((currentPointX + x) * 0.5);	
     currentPointY = ((currentPointY + y) * 0.5);	
-
 	for(int i=0;i<3;i++) *(pixels + (((currentPointY * WIN_WIDTH) + currentPointX) * 4) + i) = 255;
-	SDL_UnlockTexture(texture);	
 }
 
 static void Quit(){
